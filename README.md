@@ -1,5 +1,8 @@
 # 传智web · MedTriage 多模态智能分诊与就医导航系统
 
+**老师优先在线体验：[打开 MedTriage 公网网站](http://101.37.180.16)**  
+建议先通过浏览器在线登录或注册并体验，无需先下载代码、安装本地依赖或个人配置 API Key。代码和技术材料可继续查看下方仓库。
+
 **GitHub 公开仓库：[llu799529-lang/chuanzhi-web](https://github.com/llu799529-lang/chuanzhi-web)**  
 代码获取、模型下载与私钥配置见根目录 [05_代码仓库与环境配置说明.md](05_代码仓库与环境配置说明.md)。公开仓库只提供 `.env.example` 模板，不提供真实 API Key。
 
