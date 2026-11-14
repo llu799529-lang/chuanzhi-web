@@ -12,6 +12,7 @@
 | 图文操作手册 | 根目录 02_作品介绍与操作手册.docx / .pdf |
 | 技术说明书 | 根目录 03_技术说明书.pdf |
 | 仓库与环境配置 | 根目录 05_代码仓库与环境配置说明.md |
+| 亮点与技术特色 | 根目录 06_项目亮点与技术特色.md |
 | 架构与工程验证 | docs/ARCHITECTURE.md、ENGINEERING_VALIDATION.md |
 | 评测与来源 | docs/EVAL.md、KB_SOURCES.md，backend/evals |
 
