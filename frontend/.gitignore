@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vite
+
+# Current production build is included for reviewer startup
+!dist/
+!dist/**

@@ -1,0 +1,14 @@
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+# 后端模块以 backend/ 为根互相导入（import config / from api import ...）。
+# 不写这一行时 ruff 以仓库根为 first-party 根，会把 config、rag 等当成第三方库，导入分组规则（I001）全部判错。
+src = ["backend"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = ["E501", "E402"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"evals/*" = ["E402"]

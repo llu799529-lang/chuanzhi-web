@@ -1,0 +1,342 @@
+{
+  "_meta": "RAG 检索评测 golden 集：query + 期望命中的知识库 category（至少一条出现在 retrieve top3）",
+  "queries": [
+    {
+      "query": "最近总头晕，起床时天旋地转",
+      "expect_categories": [
+        "神经系统症状",
+        "眩晕"
+      ]
+    },
+    {
+      "query": "胸口闷痛，有时放射到左肩",
+      "expect_categories": [
+        "心血管症状",
+        "胸痛"
+      ]
+    },
+    {
+      "query": "心慌心跳快，晚上尤其明显",
+      "expect_categories": [
+        "心血管症状",
+        "心悸"
+      ]
+    },
+    {
+      "query": "爬楼梯喘不上气",
+      "expect_categories": [
+        "呼吸系统症状",
+        "气促"
+      ]
+    },
+    {
+      "query": "头痛偏头痛，持续两天了",
+      "expect_categories": [
+        "神经系统症状",
+        "头痛"
+      ]
+    },
+    {
+      "query": "发烧三天不退，咳嗽有黄痰",
+      "expect_categories": [
+        "呼吸系统症状",
+        "发热",
+        "咳嗽"
+      ]
+    },
+    {
+      "query": "肚子痛拉肚子，恶心想吐",
+      "expect_categories": [
+        "消化系统症状",
+        "腹痛",
+        "腹泻"
+      ]
+    },
+    {
+      "query": "便秘好几天了，腹胀",
+      "expect_categories": [
+        "消化系统症状",
+        "腹胀"
+      ]
+    },
+    {
+      "query": "视力模糊看不清，有糖尿病",
+      "expect_categories": [
+        "眼 / 耳症状",
+        "视力下降"
+      ]
+    },
+    {
+      "query": "手脚发麻，一侧明显",
+      "expect_categories": [
+        "神经系统症状",
+        "卒中预警"
+      ]
+    },
+    {
+      "query": "晚上睡不着，早醒，白天累",
+      "expect_categories": [
+        "神经系统症状",
+        "失眠",
+        "乏力"
+      ]
+    },
+    {
+      "query": "起了一身红疹子很痒",
+      "expect_categories": [
+        "皮肤 / 全身症状",
+        "皮疹"
+      ]
+    },
+    {
+      "query": "膝关节痛，活动后加重",
+      "expect_categories": [
+        "皮肤 / 全身症状",
+        "关节痛"
+      ]
+    },
+    {
+      "query": "小腿水肿，早上眼皮也肿",
+      "expect_categories": [
+        "皮肤 / 全身症状",
+        "水肿"
+      ]
+    },
+    {
+      "query": "半年瘦了十斤，乏力",
+      "expect_categories": [
+        "皮肤 / 全身症状",
+        "体重下降"
+      ]
+    },
+    {
+      "query": "糖尿病十年，最近视力下降",
+      "expect_categories": [
+        "眼 / 耳症状",
+        "糖尿病视网膜病变",
+        "视力下降"
+      ]
+    },
+    {
+      "query": "糖化血红蛋白 8.2%，空腹血糖 9.1",
+      "expect_categories": [
+        "血糖相关"
+      ]
+    },
+    {
+      "query": "甘油三酯偏高，低密度脂蛋白高",
+      "expect_categories": [
+        "血脂相关"
+      ]
+    },
+    {
+      "query": "转氨酶 ALT 偏高",
+      "expect_categories": [
+        "肝功能"
+      ]
+    },
+    {
+      "query": "肌酐偏高，eGFR 低",
+      "expect_categories": [
+        "肾功能"
+      ]
+    },
+    {
+      "query": "白细胞高，中性粒细胞比例高",
+      "expect_categories": [
+        "血常规"
+      ]
+    },
+    {
+      "query": "甲状腺 TSH 偏高",
+      "expect_categories": [
+        "甲功"
+      ]
+    },
+    {
+      "query": "C 反应蛋白高，血沉快",
+      "expect_categories": [
+        "炎症标志"
+      ]
+    },
+    {
+      "query": "D-二聚体高",
+      "expect_categories": [
+        "凝血"
+      ]
+    },
+    {
+      "query": "耳鸣听力下降一周",
+      "expect_categories": [
+        "眼 / 耳症状",
+        "耳鸣"
+      ]
+    },
+    {
+      "query": "恶心食欲不振两周",
+      "expect_categories": [
+        "消化系统症状",
+        "恶心"
+      ]
+    },
+    {
+      "query": "反复呕吐无法进水",
+      "expect_categories": [
+        "消化系统症状",
+        "呕吐"
+      ]
+    },
+    {
+      "query": "腹胀饭后加重",
+      "expect_categories": [
+        "消化系统症状",
+        "腹胀"
+      ]
+    },
+    {
+      "query": "干咳两周不愈",
+      "expect_categories": [
+        "呼吸系统症状",
+        "咳嗽"
+      ]
+    },
+    {
+      "query": "记忆力下降，最近总忘事",
+      "expect_categories": [
+        "神经系统症状",
+        "记忆力下降"
+      ]
+    },
+    {
+      "query": "突发剧烈头痛如雷击",
+      "expect_categories": [
+        "神经系统症状",
+        "头痛"
+      ]
+    },
+    {
+      "query": "胸痛伴大汗，呼吸困难",
+      "expect_categories": [
+        "心血管症状",
+        "胸痛"
+      ]
+    },
+    {
+      "query": "突发一侧肢体无力，言语不清",
+      "expect_categories": [
+        "神经系统症状",
+        "肢体无力"
+      ]
+    },
+    {
+      "query": "视力突然下降，眼前黑影",
+      "expect_categories": [
+        "眼 / 耳症状",
+        "视力下降"
+      ]
+    },
+    {
+      "query": "腹痛转移到右下腹",
+      "expect_categories": [
+        "消化系统症状",
+        "腹痛"
+      ]
+    },
+    {
+      "query": "呕血黑便",
+      "expect_categories": [
+        "消化系统症状",
+        "呕血"
+      ]
+    },
+    {
+      "query": "高热 39.5 持续不退",
+      "expect_categories": [
+        "呼吸系统症状",
+        "发热"
+      ]
+    },
+    {
+      "query": "眼底检查发现微血管瘤",
+      "expect_categories": [
+        "糖尿病视网膜病变"
+      ]
+    },
+    {
+      "query": "糖网增殖期新生血管",
+      "expect_categories": [
+        "糖尿病视网膜病变"
+      ]
+    },
+    {
+      "query": "硬性渗出棉絮斑",
+      "expect_categories": [
+        "糖尿病视网膜病变"
+      ]
+    },
+    {
+      "query": "尿微量白蛋白高",
+      "expect_categories": [
+        "肾功能"
+      ]
+    },
+    {
+      "query": "糖化 7.5 算高吗",
+      "expect_categories": [
+        "血糖相关"
+      ]
+    },
+    {
+      "query": "空腹血糖 6.8 正常吗",
+      "expect_categories": [
+        "血糖相关"
+      ]
+    },
+    {
+      "query": "尿酸 520 关节痛",
+      "expect_categories": [
+        "肾功能",
+        "关节痛"
+      ]
+    },
+    {
+      "query": "血红蛋白 90 贫血吗",
+      "expect_categories": [
+        "血常规"
+      ]
+    },
+    {
+      "query": "血小板偏低",
+      "expect_categories": [
+        "血常规"
+      ]
+    },
+    {
+      "query": "总胆固醇 7.2",
+      "expect_categories": [
+        "血脂相关"
+      ]
+    },
+    {
+      "query": "尿频尿急尿痛",
+      "expect_categories": [
+        "泌尿外科",
+        "尿频"
+      ]
+    },
+    {
+      "query": "眼干异物感看屏久加重",
+      "expect_categories": [
+        "眼 / 耳症状",
+        "眼干"
+      ]
+    },
+    {
+      "query": "听力下降伴耳鸣",
+      "expect_categories": [
+        "眼 / 耳症状",
+        "耳鸣"
+      ]
+    }
+  ]
+}

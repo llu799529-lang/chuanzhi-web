@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-30",
+  "backend": {
+    "passed": 929,
+    "framework": "real FastAPI/pytest",
+    "warnings": [
+      "third-party Starlette/AnyIO deprecation"
+    ]
+  },
+  "frontend": {
+    "passed": 171,
+    "files": 12,
+    "runner": "real Vitest with Vue/jsdom page tests"
+  },
+  "typecheck": "passed",
+  "build": "passed",
+  "lint": "passed",
+  "mcp": {
+    "initialize": true,
+    "tools": 7,
+    "call": "check_red_flags",
+    "passed": true
+  },
+  "browser": {
+    "isolated_data": true,
+    "llm_calls_disabled": true,
+    "checked": [
+      "login",
+      "offline agent",
+      "citations",
+      "plan and reflect",
+      "live-check status",
+      "mobile navigation",
+      "multimodal unavailable notice",
+      "original lab and workbench layout parity at 1440x1100",
+      "lab doctor summary dialog",
+      "restored chat welcome at 390px",
+      "configured AMap SDK and live hospital results"
+    ]
+  },
+  "git_uploaded": false,
+  "pending_user_materials": [
+    "team identity",
+    "recorded video"
+  ],
+  "live_report": "live_smoke_report.json"
+}

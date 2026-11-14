@@ -1,0 +1,163 @@
+{
+  "at": "2026-10-29T20:19:48+08:00",
+  "model": "deepseek-v4-flash-ga-260731",
+  "vision_model": "deepseek-v4-1-flash-economy-261017",
+  "requests": 8,
+  "cap": 8,
+  "passed": 6,
+  "total": 6,
+  "unsupported_params": [],
+  "tokens": {
+    "prompt_tokens": 7803,
+    "completion_tokens": 1377,
+    "cached_tokens": 0,
+    "reasoning_tokens": 53
+  },
+  "results": {
+    "text": {
+      "ok": true,
+      "seconds": 7.04,
+      "requests": 1,
+      "usage": [
+        {
+          "model": "deepseek-v4-flash-ga-260731",
+          "prompt_tokens": 9,
+          "completion_tokens": 1,
+          "total_tokens": 10,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0
+        }
+      ],
+      "note": "回复 2 字"
+    },
+    "json": {
+      "ok": true,
+      "seconds": 9.02,
+      "requests": 1,
+      "usage": [
+        {
+          "model": "deepseek-v4-flash-ga-260731",
+          "prompt_tokens": 1250,
+          "completion_tokens": 328,
+          "total_tokens": 1578,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0
+        }
+      ],
+      "note": "科室=神经内科（首诊） 紧急度=yellow"
+    },
+    "tools": {
+      "ok": true,
+      "seconds": 7.26,
+      "requests": 1,
+      "usage": [
+        {
+          "model": "deepseek-v4-flash-ga-260731",
+          "prompt_tokens": 1403,
+          "completion_tokens": 120,
+          "total_tokens": 1523,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0
+        }
+      ],
+      "tool_calls": [
+        "search_kb",
+        "find_hospital"
+      ],
+      "note": "调用了 ['search_kb', 'find_hospital']"
+    },
+    "cache": {
+      "ok": true,
+      "seconds": 6.2,
+      "requests": 1,
+      "usage": [
+        {
+          "model": "deepseek-v4-flash-ga-260731",
+          "prompt_tokens": 1403,
+          "completion_tokens": 16,
+          "total_tokens": 1419,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0
+        }
+      ],
+      "cached_tokens": 0,
+      "prompt_tokens": 1403,
+      "cache_hit": false,
+      "note": "缓存命中 0/1403 输入 token（未命中：只影响成本）"
+    },
+    "stream": {
+      "ok": true,
+      "seconds": 6.84,
+      "requests": 1,
+      "usage": [
+        {
+          "model": "deepseek-v4-flash-ga-260731",
+          "prompt_tokens": 12,
+          "completion_tokens": 36,
+          "total_tokens": 48,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0
+        },
+        {
+          "model": "deepseek-v4-flash-ga-260731",
+          "prompt_tokens": 12,
+          "completion_tokens": 36,
+          "total_tokens": 48,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0
+        }
+      ],
+      "usage_reported": true,
+      "note": "流式 66 字，用量已回传"
+    },
+    "image": {
+      "ok": true,
+      "requests": 1,
+      "kind": "lab",
+      "items": 3,
+      "vision_model": "deepseek-v4-1-flash-economy-261017",
+      "note": "当前视觉模型的图片输入及合成化验单识别验证"
+    },
+    "lab_fixture": {
+      "ok": true,
+      "requests": 1,
+      "kind": "lab",
+      "items": 3,
+      "vision_model": "deepseek-v4-1-flash-economy-261017",
+      "note": "合成化验单，核对血糖8.5与HbA1c8.2；不作为临床准确率"
+    }
+  },
+  "stopped": "",
+  "suggested_env": [],
+  "previous_vision_checks": [
+    {
+      "model": "deepseek-v4-flash-ga-260731",
+      "at": "2026-10-29T20:16:10+08:00",
+      "image": {
+        "ok": true,
+        "seconds": 6.95,
+        "requests": 1,
+        "usage": [
+          {
+            "model": "deepseek-v4-flash-ga-260731",
+            "prompt_tokens": 1209,
+            "completion_tokens": 46,
+            "total_tokens": 1255,
+            "cached_tokens": 0,
+            "reasoning_tokens": 0
+          }
+        ],
+        "kind": "other",
+        "vision_model": "deepseek-v4-flash-ga-260731",
+        "note": "判别为 other"
+      },
+      "lab_fixture": {
+        "ok": false,
+        "requests": 1,
+        "kind": "fundus",
+        "items": 0,
+        "note": "人工合成无身份信息化验单；核对血糖8.5和HbA1c8.2，仅验证OCR与结构化链路，不作为临床准确率评测"
+      }
+    }
+  ]
+}

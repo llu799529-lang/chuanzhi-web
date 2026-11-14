@@ -1,0 +1,145 @@
+[
+  {
+    "kind": "symptom",
+    "data": {
+      "hits": [
+        "头晕"
+      ],
+      "echo": "合成测试描述",
+      "dept": "神经内科",
+      "urg": "黄色 · 建议就诊",
+      "alt": "可先到内科门诊",
+      "suspects": [
+        [
+          "测试方向一",
+          35,
+          "说明一"
+        ],
+        [
+          "测试方向二",
+          30,
+          "说明二"
+        ],
+        [
+          "测试方向三",
+          20,
+          "说明三"
+        ]
+      ],
+      "tests": [
+        "检查一",
+        "检查二",
+        "检查三",
+        "检查四"
+      ],
+      "prep": [
+        "准备一",
+        "准备二"
+      ],
+      "reds": [
+        "测试提示一"
+      ],
+      "kb_hits": [
+        {
+          "category": "头晕",
+          "dept": "神经内科",
+          "matched": [
+            "起床时"
+          ]
+        }
+      ]
+    },
+    "expected": "<p>已收到你的描述，识别到 <strong>头晕</strong>，初步归入「合成测试描述」。</p><div class=\"result-card\"><div class=\"lbl\">建议就诊科室</div><div class=\"dept\">神经内科</div><div class=\"urg\">黄色 · 建议就诊 · 可先到内科门诊</div></div><div class=\"data-block\"><div class=\"k\">疑似方向 <span class=\"tag\">按可能性排序</span></div><div class=\"risk-row\"><span class=\"dot mid\"></span><span class=\"n\"><b>测试方向一</b> · 说明一</span><span class=\"tag mid\">35%</span></div><div class=\"risk-row\"><span class=\"dot low\"></span><span class=\"n\"><b>测试方向二</b> · 说明二</span><span class=\"tag low\">30%</span></div><div class=\"risk-row\"><span class=\"dot low\"></span><span class=\"n\"><b>测试方向三</b> · 说明三</span><span class=\"tag low\">20%</span></div></div><div class=\"data-block\"><div class=\"k\">建议检查</div><div class=\"data-row\"><span class=\"rk\">01</span><span class=\"rv\">检查一</span></div><div class=\"data-row\"><span class=\"rk\">02</span><span class=\"rv\">检查二</span></div><div class=\"data-row\"><span class=\"rk\">03</span><span class=\"rv\">检查三</span></div><div class=\"data-row\"><span class=\"rk\">04</span><span class=\"rv\">检查四</span></div></div><div class=\"data-block\"><div class=\"k\">知识库参考 <span class=\"tag\">RAG 检索 · 内置医学知识库</span></div><div class=\"data-row\"><span class=\"rk\">神经内科</span><span class=\"rv\">头晕 · 命中：<strong>起床时</strong></span></div></div><div class=\"advice-block\"><div class=\"head\"><b>就诊准备</b><span class=\"when\">建议这样做</span></div><ul><li>准备一</li><li>准备二</li></ul></div><div class=\"advice-block\" style=\"border-left-color:#D9443C;\"><div class=\"head\"><b>红旗信号 · 出现请立即就医</b><span class=\"when red\">紧急</span></div><ul><li>测试提示一</li></ul></div><p style=\"margin-top:12px;font-size:10.5px;color:var(--faint);text-align:center;letter-spacing:.02em;\">AI 输出仅为筛查参考，不是诊断，需医生确认 · 急症请拨打 120</p>"
+  },
+  {
+    "kind": "fundus",
+    "data": {
+      "kind": "fundus",
+      "summary": "用于界面测试的图像说明",
+      "department": "眼科",
+      "urgency_label": "黄色 · 复查建议",
+      "confidence": 0.876,
+      "engine": "local",
+      "probabilities": [
+        5,
+        10,
+        80,
+        4,
+        1
+      ],
+      "level": 2,
+      "level_label": "中度",
+      "lesions": [
+        {
+          "type": "测试病灶",
+          "count": 3,
+          "desc": "测试说明",
+          "loc": "测试区域"
+        }
+      ],
+      "criteria": [
+        {
+          "hit": true,
+          "text": "测试依据一"
+        },
+        {
+          "hit": false,
+          "text": "测试依据二"
+        }
+      ],
+      "risks": [
+        {
+          "text": "测试因素",
+          "level": "mid",
+          "tag": "关注"
+        }
+      ],
+      "followup": "测试复查时间",
+      "advice": [
+        "建议一",
+        "建议二"
+      ]
+    },
+    "expected": "<p>分析完成。用于界面测试的图像说明</p><div class=\"result-card\"><div class=\"lbl\">建议就诊科室</div><div class=\"dept\">眼科</div><div class=\"urg\">黄色 · 复查建议</div><span class=\"conf\">置信度 87.6% · 本地专用分级模型</span></div><div class=\"data-block\"><div class=\"k\">DR 分级概率 <span class=\"tag\">EfficientNet-B3 本地模型</span></div><div class=\"prob-row\"><div class=\"top\"><span class=\"k\">DR 0 · 无病变</span><span class=\"v\">5%</span></div><div class=\"bar\"><i class=\"gray\" style=\"width:5%\"></i></div></div><div class=\"prob-row\"><div class=\"top\"><span class=\"k\">DR 1 · 轻度非增殖期</span><span class=\"v\">10%</span></div><div class=\"bar\"><i class=\"gray\" style=\"width:10%\"></i></div></div><div class=\"prob-row\"><div class=\"top\"><span class=\"k\">DR 2 · 中度非增殖期</span><span class=\"v hl\">80%</span></div><div class=\"bar\"><i style=\"width:80%\"></i></div></div><div class=\"prob-row\"><div class=\"top\"><span class=\"k\">DR 3 · 重度非增殖期</span><span class=\"v\">4%</span></div><div class=\"bar\"><i class=\"gray\" style=\"width:4%\"></i></div></div><div class=\"prob-row\"><div class=\"top\"><span class=\"k\">DR 4 · 增殖期</span><span class=\"v\">1%</span></div><div class=\"bar\"><i class=\"gray\" style=\"width:1%\"></i></div></div></div><div class=\"data-block\"><div class=\"k\">病灶检出 <span class=\"tag\">模型定位</span></div><div class=\"lesion-list\"><div class=\"lesion hot\"><span class=\"num\">01</span><div class=\"body\"><b>测试病灶 × 3</b><span>测试说明</span></div><span class=\"loc\">测试区域</span></div></div></div><div class=\"data-block\"><div class=\"k\">分级依据 <span class=\"tag\">DR 2 · 中度</span></div><div class=\"criteria\"><div class=\"cri ok\"><span class=\"ck\">✓</span><span class=\"tx\">测试依据一</span></div><div class=\"cri no\"><span class=\"ck\">–</span><span class=\"tx\">测试依据二</span></div></div></div><div class=\"data-block\"><div class=\"k\">危险因素评估</div><div class=\"risk-row\"><span class=\"dot mid\"></span><span class=\"n\">测试因素</span><span class=\"tag mid\">关注</span></div></div><div class=\"advice-block\"><div class=\"head\"><b>下一步建议</b><span class=\"when\">测试复查时间</span></div><ul><li>建议一</li><li>建议二</li></ul></div><p style=\"margin-top:12px;font-size:10.5px;color:var(--faint);text-align:center;letter-spacing:.02em;\">AI 输出仅为筛查参考，不是诊断，需医生确认 · 急症请拨打 120</p>"
+  },
+  {
+    "kind": "lab",
+    "data": {
+      "kind": "lab",
+      "report_title": "合成测试化验单",
+      "department": "内分泌科",
+      "urgency_label": "黄色 · 门诊咨询",
+      "abnormal_count": 1,
+      "items": [
+        {
+          "name": "指标一",
+          "value": "8.2",
+          "unit": "%",
+          "ref": "4–6",
+          "flag": "high"
+        },
+        {
+          "name": "指标二",
+          "value": "6",
+          "unit": "单位",
+          "ref": "3–9",
+          "flag": "normal"
+        }
+      ],
+      "judgments": [
+        {
+          "q": "测试问题",
+          "a": "测试说明",
+          "text": "测试说明",
+          "level": "mid",
+          "tag": "关注"
+        }
+      ],
+      "followup": "测试复查时间",
+      "advice": [
+        "建议一"
+      ]
+    },
+    "expected": "<p>识别完成。这张「合成测试化验单」的<strong>详细报告</strong>如下：</p><div class=\"result-card\"><div class=\"lbl\">建议就诊科室</div><div class=\"dept\">内分泌科</div><div class=\"urg\">黄色 · 门诊咨询</div><span class=\"conf\">1 项指标异常</span></div><div class=\"data-block\"><div class=\"k\">指标解读 <span class=\"tag\">OCR · 2 项</span></div><div class=\"data-row\"><span class=\"rk\">指标一</span><span class=\"rv warn\">8.2 % ↑（参考 4–6）</span></div><div class=\"data-row\"><span class=\"rk\">指标二</span><span class=\"rv\">6 单位（参考 3–9）</span></div></div><div class=\"data-block\"><div class=\"k\">综合判断</div><div class=\"risk-row\"><span class=\"dot mid\"></span><span class=\"n\">测试说明</span><span class=\"tag mid\">关注</span></div></div><div class=\"advice-block\"><div class=\"head\"><b>下一步建议</b><span class=\"when\">测试复查时间</span></div><ul><li>建议一</li></ul></div><p style=\"margin-top:12px;font-size:10.5px;color:var(--faint);text-align:center;letter-spacing:.02em;\">AI 输出仅为筛查参考，不是诊断，需医生确认 · 急症请拨打 120</p>"
+  }
+]

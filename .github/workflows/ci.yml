@@ -1,0 +1,133 @@
+name: ci
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          pip install -r requirements.txt ruff
+
+      - name: Ruff lint
+        run: ruff check .
+
+      - name: Compile check
+        run: |
+          python -m compileall -q .
+
+      # 单元测试：分级映射 / RAG 召回 / 护栏 / 鉴权 / 接口契约
+      # 测试用临时数据库，不碰真实的 medtriage.db（见 tests/conftest.py）
+      # 这一步在**真实 FastAPI** 上执行全部测试，包括沙箱里只能用替身跑的接口测试——它才是接口层的最终裁判。
+      - name: Unit tests
+        run: python -m pytest tests/ -q
+
+      # 知识库「参考依据」必须与登记表 kb_sources.json 同步，且登记表满足证据要求。
+      # 手改 knowledge_base.json 的 source 字段会在这里变红；修复：python evals/build_kb_sources.py
+      # 架构约束（分层单向 / 无循环依赖 / 入口层不被导入 / 框架不入领域模块）已在上面的 pytest 里由 tests/test_architecture.py 执行；
+      # 工具规格一致性（Agent schema ↔ MCP ↔ 前端）由 tests/test_tool_specs.py 执行。这里不重复跑，只在失败时看那两个文件的报错。
+      - name: KB sources registry check
+        run: python evals/build_kb_sources.py --check
+
+      # 评测门禁：故意不加 `|| true`，指标不达标就让 CI 红。
+      #
+      # 阈值是实测值往下留余量，不是拍脑袋：
+      #   golden recall@3  实测 1.00（注意：这批句子是边看结果边修的，只能当回归用）
+      #   blind  recall@3  实测 0.91（写句子时不知道结果，这才是泛化指标）
+      #   blind 关掉向量  实测 0.89
+      # 之所以两个都设门禁：golden 涨、blind 跌 = 过拟合，必须拦下来。
+      - name: Eval gate (RAG golden + blind hold-out)
+        run: |
+          python evals/run_evals.py
+          python evals/run_blind.py
+          python - <<'PY'
+          import json, pathlib, sys
+
+          base = json.loads(pathlib.Path("evals/baseline_v1.json").read_text(encoding="utf-8"))
+          bl = json.loads(pathlib.Path("evals/blind_report.json").read_text(encoding="utf-8"))
+
+          # golden 与 blind 同时设门禁：只看 golden 会鼓励「照例句调参」，
+          # 只看 blind 会容忍已有能力退化。两个都卡住才有意义。
+          gates = {
+              "golden_recall_at_3": (base.get("recall_at_3", 0), 0.90),
+              "blind_recall_at_3": (bl["summary"]["full"]["recall_at_3"], 0.80),
+              "blind_no_vec_recall_at_3": (bl["summary"]["no_vec"]["recall_at_3"], 0.80),
+          }
+
+          failed = []
+          for key, (got, floor) in gates.items():
+              got = float(got or 0)
+              flag = "OK  " if got >= floor else "FAIL"
+              print(f"[{flag}] {key}: {got:.3f} (floor {floor:.2f})")
+              if got < floor:
+                  failed.append(key)
+
+          # 过拟合哨兵：golden 与 blind 的差距超过 0.15，说明调参已经在拟合例句
+          gap = float(base.get("recall_at_3", 0)) - float(bl["summary"]["full"]["recall_at_3"])
+          print(f"[INFO] golden - blind = {gap:+.3f}（超过 0.15 视为过拟合风险）")
+          if gap > 0.15:
+              failed.append("overfit_gap")
+
+          # 向量通道必须「不拖后腿」：关掉它不该更好
+          # vec_delta 为 null 表示「消融无效」（向量通道没有真正启用，见 run_blind.py），
+          # 不能当 0 处理，更不能直接格式化——之前这里会 TypeError，把 CI 本身打红。
+          delta = bl["summary"].get("vec_delta")
+          if delta is None:
+              print("[INFO] 向量通道净贡献 = N/A（消融无效：向量通道未启用）")
+          else:
+              print(f"[INFO] 向量通道净贡献 = {delta:+.3f}")
+              if delta < 0:
+                  failed.append("vector_channel_hurts")
+
+          if failed:
+              sys.exit(f"eval gate failed: {', '.join(failed)}")
+          print("all eval gates passed")
+          PY
+
+      - name: Upload eval report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-log
+          path: |
+            evals/baseline_v1.json
+            evals/blind_report.json
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Type check
+        run: npx vue-tsc --noEmit
+
+      # 单元测试：SSE 解析边界、眼底数据归一化、报告渲染（含离线/红旗状态条）、科室映射。
+      # 之前只写了测试没进门禁，等于写了个不会响的警报。
+      # 这两块都是「后端一改就静默坏掉」的地方，必须拦在合并前。
+      - name: Unit tests
+        run: npx vitest run
+
+      - name: Build
+        run: npm run build

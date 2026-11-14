@@ -1,0 +1,178 @@
+{
+  "_meta": "Agent 任务成功率评测场景：input + 期望调用的工具集 + 期望报告 kind。expect_tools 是「必要工具」而非「全部工具」：多调 1 个以内不扣分，少调任何一个即判失败。需要图片的场景用 fixture 指定真实文件，脚本会读图上传——不能凭空声称「上传了一张图」，那是评测脚本自己的错，不是 Agent 的错。",
+  "scenarios": [
+    {
+      "id": 1,
+      "input": "帮我看看这张眼底照片，我糖尿病八年了",
+      "fixture": "_shots/fundus_real.jpg",
+      "expect_tools": [
+        "analyze_image",
+        "search_kb"
+      ],
+      "expect_kind": "fundus",
+      "_fixture_note": "2026-10-19 换：原来是 _shots/03-app.png（工作台 UI 截图），模型正确识别出「这不是眼底彩照」→ 被判 kind 失败，是尺子错。现在用 DR_merged_classification/test/2 里的一张真实眼底片（DR 2 级）。"
+    },
+    {
+      "id": 2,
+      "input": "刚做的化验单，帮我看一下有没有问题",
+      "fixture": "_shots/01-landing.png",
+      "expect_tools": [
+        "analyze_image"
+      ],
+      "expect_kind": "other"
+    },
+    {
+      "id": 3,
+      "input": "最近头晕头痛一周",
+      "expect_tools": [
+        "search_kb",
+        "calc_risk"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 4,
+      "input": "胸痛放射到左肩",
+      "expect_tools": [
+        "search_kb"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 5,
+      "input": "糖尿病十年视力模糊",
+      "expect_tools": [
+        "search_kb",
+        "calc_risk"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 6,
+      "input": "肚子痛拉肚子",
+      "expect_tools": [
+        "search_kb"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 7,
+      "input": "干咳两周",
+      "expect_tools": [
+        "search_kb"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 8,
+      "input": "手脚发麻一侧明显",
+      "expect_tools": [
+        "search_kb",
+        "calc_risk"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 9,
+      "input": "糖化8.2空腹9.1怎么办",
+      "expect_tools": [
+        "search_kb",
+        "calc_risk"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 10,
+      "input": "起红疹瘙痒",
+      "expect_tools": [
+        "search_kb"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 11,
+      "input": "小腿水肿眼皮肿",
+      "expect_tools": [
+        "search_kb",
+        "calc_risk"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 12,
+      "input": "失眠早醒白天累",
+      "expect_tools": [
+        "search_kb"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 13,
+      "input": "附近有哪些眼科医院",
+      "expect_tools": [
+        "find_hospital"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 14,
+      "input": "查一下我的历史筛查记录",
+      "expect_tools": [
+        "get_history"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 15,
+      "input": "关节痛活动后加重",
+      "expect_tools": [
+        "search_kb"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 16,
+      "input": "听力下降伴耳鸣",
+      "expect_tools": [
+        "search_kb"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 17,
+      "input": "半年瘦了十斤乏力",
+      "expect_tools": [
+        "search_kb",
+        "calc_risk"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 18,
+      "input": "反复呕吐无法进水",
+      "expect_tools": [
+        "search_kb",
+        "calc_risk"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 19,
+      "input": "突发剧烈头痛",
+      "expect_tools": [
+        "search_kb",
+        "calc_risk"
+      ],
+      "expect_kind": "symptom"
+    },
+    {
+      "id": 20,
+      "input": "视力突然下降眼前黑影",
+      "expect_tools": [
+        "search_kb",
+        "calc_risk"
+      ],
+      "expect_kind": "symptom"
+    }
+  ]
+}

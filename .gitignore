@@ -1,0 +1,70 @@
+# ============================================================
+# MedTriage .gitignore
+# ============================================================
+
+# ---- Python 编译缓存 ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+
+# ---- 运行日志 / 临时文件 ----
+*.log
+_server.log
+*_debug_*.html
+
+# ---- 环境变量（含密钥，绝不入库）----
+.env
+.env.local
+.env.*
+!.env.example
+
+# ---- 模型权重（大文件，按需单独下载，详见 README）----
+backend/weights/*.pth
+backend/weights/*.pt
+backend/weights/*.onnx
+*.pth
+*.pt
+
+# ---- IDE / 系统文件 ----
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 调试产物 ----
+verify_*.html
+scan_proj.js
+cleanup_proj.js
+
+# ---- 运行数据库：包含账号和筛查记录，不提交 ----
+backend/medtriage.db
+*.db
+# WAL 是运行时副产物（-shm 是共享内存索引），提交它们没有意义，
+# 而且在不同机器的 SQLite 版本之间可能不兼容。库文件本身要不要留是上一条的事。
+backend/medtriage.db-shm
+backend/medtriage.db-wal
+
+# ---- 本地密钥 ----
+# backend/.jwt_secret 是首次启动自动生成的 JWT 签名密钥。
+# **绝不能提交**：它一进仓库，任何人拿到代码就能伪造 token。
+backend/.jwt_secret
+
+# ---- 依赖、构建产物与本机备份 ----
+node_modules/
+frontend/dist*/
+.pytest_cache/
+_backup*/
+
+# Release payload intentionally tracked for reviewer startup
+!backend/weights/best_v2.pth
+!frontend/dist/
+!frontend/dist/**
+.ruff_cache/
+*.tar.gz
+*.zip

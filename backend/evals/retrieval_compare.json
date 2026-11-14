@@ -1,0 +1,131 @@
+{
+  "modes": {
+    "baseline": {
+      "golden": {
+        "n": 50,
+        "hit_at_1": 0.9,
+        "hit_at_3": 1.0,
+        "mrr_at_3": 0.95,
+        "misses": []
+      },
+      "blind_v1": {
+        "n": 95,
+        "hit_at_1": 0.863,
+        "hit_at_3": 0.989,
+        "mrr_at_3": 0.918,
+        "misses": [
+          "总觉得累，爬两层楼就心慌气短"
+        ]
+      },
+      "blind_v2": {
+        "n": 64,
+        "hit_at_1": 0.766,
+        "hit_at_3": 0.938,
+        "mrr_at_3": 0.849,
+        "misses": [
+          "盯着手机久了眼睛酸胀，头也有点疼",
+          "早上起来腰像断了一样，弯不下去",
+          "皮肤一到冬天就起皮，痒得睡不着",
+          "孩子突然全身抽动，眼睛上翻"
+        ]
+      },
+      "negatives": {
+        "n": 10,
+        "false_recalls": 0,
+        "examples": {}
+      }
+    },
+    "rerank": {
+      "golden": {
+        "n": 50,
+        "hit_at_1": 0.9,
+        "hit_at_3": 1.0,
+        "mrr_at_3": 0.95,
+        "misses": []
+      },
+      "blind_v1": {
+        "n": 95,
+        "hit_at_1": 0.884,
+        "hit_at_3": 0.979,
+        "mrr_at_3": 0.928,
+        "misses": [
+          "总觉得累，爬两层楼就心慌气短",
+          "说话声音突然变哑了"
+        ]
+      },
+      "blind_v2": {
+        "n": 64,
+        "hit_at_1": 0.781,
+        "hit_at_3": 0.938,
+        "mrr_at_3": 0.857,
+        "misses": [
+          "盯着手机久了眼睛酸胀，头也有点疼",
+          "早上起来腰像断了一样，弯不下去",
+          "皮肤一到冬天就起皮，痒得睡不着",
+          "孩子突然全身抽动，眼睛上翻"
+        ]
+      },
+      "negatives": {
+        "n": 10,
+        "false_recalls": 0,
+        "examples": {}
+      }
+    },
+    "fuse": {
+      "golden": {
+        "n": 50,
+        "hit_at_1": 0.9,
+        "hit_at_3": 1.0,
+        "mrr_at_3": 0.95,
+        "misses": []
+      },
+      "blind_v1": {
+        "n": 95,
+        "hit_at_1": 0.884,
+        "hit_at_3": 0.979,
+        "mrr_at_3": 0.928,
+        "misses": [
+          "总觉得累，爬两层楼就心慌气短",
+          "说话声音突然变哑了"
+        ]
+      },
+      "blind_v2": {
+        "n": 64,
+        "hit_at_1": 0.781,
+        "hit_at_3": 0.938,
+        "mrr_at_3": 0.857,
+        "misses": [
+          "盯着手机久了眼睛酸胀，头也有点疼",
+          "早上起来腰像断了一样，弯不下去",
+          "皮肤一到冬天就起皮，痒得睡不着",
+          "孩子突然全身抽动，眼睛上翻"
+        ]
+      },
+      "negatives": {
+        "n": 10,
+        "false_recalls": 0,
+        "examples": {}
+      }
+    }
+  },
+  "scope": "golden / blind_v1 已被调参污染（只能当回归，且对 baseline 有利）；blind_v2 是运行前写好的留出集，是唯一接近泛化的口径；样本由项目作者撰写。",
+  "verdict": {
+    "rerank": {
+      "v2_hit1_delta": 0.015,
+      "v2_hit3_delta": 0.0,
+      "v2_mrr_delta": 0.008,
+      "regression_hit3_delta": -0.01,
+      "extra_false_recalls": 0,
+      "adopt": false
+    },
+    "fuse": {
+      "v2_hit1_delta": 0.015,
+      "v2_hit3_delta": 0.0,
+      "v2_mrr_delta": 0.008,
+      "regression_hit3_delta": -0.01,
+      "extra_false_recalls": 0,
+      "adopt": false
+    }
+  },
+  "default_mode": "baseline"
+}
