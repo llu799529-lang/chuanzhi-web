@@ -1,5 +1,3 @@
-> 提交包仅包含 Vue 新版。本文涉及的 /_legacy/ 与 frontend-legacy 是开发目录可选的迁移参考，不随新版提交包分发，也不是运行依赖。
-
 # MedTriage 架构说明
 
 > 一句话：**FastAPI 承载 Web 后端，独立 stdio MCP 进程复用相同的业务模块**，
@@ -11,21 +9,18 @@
 
 ```
 start_server.bat
-  └─ D:\python\python.exe -m uvicorn main:app --host 127.0.0.1 --port 8010
+  └─ python -m uvicorn main:app --host 127.0.0.1 --port 8010
        └─ backend/main.py  → api.app.create_app()（FastAPI 应用工厂）
             ├── /api/*        → 业务接口（见 §3，按资源分在 api/routes/*.py）
-            ├── /_legacy/*    → 旧版原生前端（只读归档，答辩对比用）
             └── /             → frontend/dist 构建产物（SPA 兜底 index.html）
 
 backend/mcp_server.py   ← 独立进程，stdio 传输，把同一批能力暴露为 MCP 工具
 frontend/               ← Vue 3 + TS strict 源码
-frontend-legacy/        ← 旧版原生 HTML/CSS/JS，不再维护
 ```
 
-两点设计取舍：
+部署方式：
 
-- **前端与后端同域**：不配反向代理，`fetch('/api/...')` 直接可用，演示环境少一个失败点。CORS 默认只放行本机开发端口（`CORS_ORIGINS` 可配），不再是 `*`。
-- **旧版不删只归档**：`/_legacy/` 旁路可访问，供迁移对照；当前界面以提交版构建产物为准，不宣称完成全站像素一致验收。
+- **前端与后端同域**：本地运行可直接同域访问，`fetch('/api/...')` 直接可用，前后端使用统一访问入口。CORS 默认只放行本机开发端口（`CORS_ORIGINS` 可配），不再是 `*`。
 
 ---
 
@@ -63,12 +58,12 @@ POST /api/ai/symptom
 | R1 | 只能依赖**更低层**，同层之间也不行 | 要共享就下沉一层，而不是互相 import |
 | R2 | 无循环依赖 | 循环依赖常被「函数里再 import」藏起来，这里连延迟导入一起查 |
 | R3 | 新模块（含包）必须先登记所在层 | 不允许悄悄绕过规则 |
-| R4 | 入口层不被导入 | 历史上 Agent 为拿演示数据运行时 `import main`（服务层反向依赖 HTTP 入口） |
-| R5 | fastapi / starlette / pydantic / anyio 只出现在 HTTP 层（`api/`、`main`） | 领域逻辑框架无关、离线可测；auth / guardrails 以前直接抛 HTTPException，现在抛 `errors.*` |
+| R4 | 入口层不被导入 | 入口负责组装，业务模块保持可复用 |
+| R5 | fastapi / starlette / pydantic / anyio 只出现在 HTTP 层（`api/`、`main`） | 领域逻辑框架无关，使用统一领域异常并支持离线测试 |
 | R7 | 基础层是叶子 | 纯函数 / 数据，随处可复用 |
-| R8 | HTTP 层不写 SQL、不开数据库连接 | 以前三个路由各写一条 `INSERT INTO records`，各自记得脱敏 |
+| R8 | HTTP 层不写 SQL、不开数据库连接 | 数据访问与落库脱敏集中管理 |
 | R9 | `records` 表只由 `records.py` 读写 | 落库脱敏只在一处，调用方无法绕过 |
-| R10 | 路由函数不得与导入的模块同名 | 曾经 `def records()` 遮蔽了 `import records`，把函数对象当记录列表传给模型 |
+| R10 | 路由函数不得与导入的模块同名 | 避免命名遮蔽，保持调用边界明确 |
 | — | `main.py` ≤ 40 行、每个路由文件 ≤ 200 行；agent2 1000 · rag 570 行棘轮 | 业务逻辑流回 HTTP 层就会撞线 |
 
 接口层另有契约测试（`tests/test_api_contract.py`，同样是静态分析，不需要 FastAPI）：
@@ -98,18 +93,16 @@ POST /api/ai/symptom
 
 | 能力 | 唯一实现 | 调用方 |
 |---|---|---|
-| 医院检索（演示数据 / 排序 / 高德） | `hospitals.py` | `/api/hospitals`、Agent 的 `find_hospital`、MCP 的 `find_hospital` |
-| 糖网进展风险规则 | `agent.score_risk` | Agent 的 `calc_risk`、MCP 的 `calc_risk`（此前两份且不一致） |
+| 医院检索（排序 / 高德 POI） | `hospitals.py` | `/api/hospitals`、Agent 的 `find_hospital`、MCP 的 `find_hospital` |
+| 糖网进展风险规则 | `agent.score_risk` | Agent 的 `calc_risk`、MCP 的 `calc_risk` |
 | 急症识别 | `safety.detect` | 症状接口、Agent 每一轮入口、MCP 的 `check_red_flags` |
 | 工具 schema 与标签 | `tool_specs.py` | `agent2.TOOLS`；`CAPABILITIES` 对照表约束 MCP 与前端 |
 | 记录表读写（含落库脱敏） | `records.py` | 所有 HTTP 接口、两个 Agent、MCP |
-| 眼底分级（本地模型 + 分诊 + 质量 + 热力图） | `screening.grade_local` / `apply_local_model` / `heatmap` | `/api/fundus/analyze`、`/api/ai/image`、Agent 的 `analyze_image`、MCP 的 `analyze_fundus`（此前三份：MCP 漏传概率，Agent 漏传图像质量） |
+| 眼底分级（本地模型 + 分诊 + 质量 + 热力图） | `screening.grade_local` / `apply_local_model` / `heatmap` | `/api/fundus/analyze`、`/api/ai/image`、Agent 的 `analyze_image`、MCP 的 `analyze_fundus` |
 | 月度用量与成本估算 | `usage.py` | `/api/usage` |
 | 错误词汇 | `errors.py` | 业务层抛、HTTP 层译 |
 
-**已知取舍（诚实地写）**：
-- 原来 756 行的 `main.py` 已拆成 `api/` 包（2026-10-29）。拆分是在**没有真实 FastAPI 的沙箱**里做的：用一个最小 Web 框架替身跑通了全部接口测试，但替身不是 FastAPI，最终以 CI / 本机 `pytest` 为准。拆分时保持了每个接口的路径、参数与响应字段不变（契约测试锁定）；行为上有意改变的地方逐条列在 `docs/EVAL.md` §12.2。
-- `agent.py` 仍保留 v1 的 ReAct 循环（线上不用，工具实现被 v2 复用）。
+**模块职责**：HTTP 接口由应用工厂统一注册，Agent、MCP 与 HTTP 复用业务实现。`agent2.py` 负责当前工作台决策循环，`agent.py` 提供共享工具实现。
 
 ---
 
@@ -229,22 +222,25 @@ SQLite           WAL 模式，并发写不锁死
 
 ---
 
-## 5. Agent 循环（`agent.py` / `agent2.py`）
+## 5. Agent 工作流（`agent2.py` / `agent.py`）
 
+```text
+用户输入 → 规则闸门 → Function Calling → 工具执行 → 工具结果
+                                    ↑                 │
+                                    └── 按轮次继续 ──┘
+                              → 流式报告 → 自检与有限修复
 ```
-用户消息 → Thought(JSON) → Action → 真实工具执行 → Observation → …
-                                                              ↓
-                                        MAX_ROUNDS=6 或 final → 综合报告
-```
 
-四个工具全部是真函数，不是 mock：
-
-| 工具 | 实际做的事 |
+| 工具 | 作用 |
 |---|---|
-| `get_history` | 查 SQLite `records` 表 |
-| `analyze_image` | 调 EfficientNet-B3 + 大模型视觉 |
-| `search_kb` | `rag.retrieve()`（关键词 + bigram + 同义词 + 可选向量） |
-| `calc_risk` | 规则引擎打分（病程 / 糖化 / 视力变化 / 分级进展） |
+| `get_history` | 查询当前账号历史记录 |
+| `analyze_image` | 分析已上传的眼底或化验图片 |
+| `search_kb` | 检索知识库与来源 |
+| `calc_risk` | 糖网进展辅助规则评估 |
+| `find_hospital` | 按部署配置检索医院 |
+| `ask_user` | 收集必要的补充信息 |
+
+工具 schema 与标签由 `tool_specs.py` 统一登记。`agent2.py` 管理模型决策和 SSE 事件，`agent.py` 的共享工具实现与业务模块复用到其他入口。
 
 ## 6. MCP 集成（`mcp_server.py`）
 
@@ -254,7 +250,7 @@ SQLite           WAL 模式，并发写不锁死
 {
   "mcpServers": {
     "medtriage": {
-      "command": "D:\\python\\python.exe",
+      "command": "python",
       "args": ["<项目路径>\\backend\\mcp_server.py"]
     }
   }
