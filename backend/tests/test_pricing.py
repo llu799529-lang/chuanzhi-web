@@ -25,7 +25,7 @@ def test_peak_windows_are_beijing_weekday_hours(when, peak):
 
 
 def test_timezone_aware_values_are_converted_to_beijing():
-    utc = datetime(2026, 10, 26, 2, 0, tzinfo=timezone.utc)  # noqa: UP017 -- keep Python 3.10 compatibility
+    utc = datetime(2026, 10, 26, 2, 0, tzinfo=timezone.utc)      # = 北京 10:00 周一
     assert pricing.is_peak(utc) is True
 
 

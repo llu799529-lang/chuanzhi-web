@@ -34,21 +34,8 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import (
-    BaseDocTemplate,
-    CondPageBreak,
-    Flowable,
-    Frame,
-    Image,
-    KeepTogether,
-    NextPageTemplate,
-    PageBreak,
-    PageTemplate,
-    Paragraph,
-    Spacer,
-    Table,
-    TableStyle,
-)
+from reportlab.platypus import (BaseDocTemplate, CondPageBreak, Flowable, Frame, Image, KeepTogether,
+                                NextPageTemplate, PageBreak, PageTemplate, Paragraph, Spacer, Table, TableStyle)
 from reportlab.platypus.tableofcontents import TableOfContents
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -154,8 +141,7 @@ def noto_ttf(weight: str, chars: str) -> Path:
     from fontTools import subset
     from fontTools.pens.cu2quPen import Cu2QuPen
     from fontTools.pens.ttGlyphPen import TTGlyphPen
-    from fontTools.ttLib import TTCollection, newTable
-    from fontTools.ttLib import TTFont as FTFont
+    from fontTools.ttLib import TTCollection, TTFont as FTFont, newTable
 
     src = f"/usr/share/fonts/opentype/noto/NotoSansCJK-{weight}.ttc"
     out = Path(tempfile.gettempdir()) / "medtriage_doc_fonts" / f"NotoSansSC-{weight}-{hashlib.md5(chars.encode()).hexdigest()[:10]}.ttf"

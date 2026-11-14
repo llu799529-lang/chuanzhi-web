@@ -49,7 +49,7 @@ def test_gradcam_is_pasted_onto_the_region_the_model_actually_saw():
     alpha = Image.open(io.BytesIO(layer)).getchannel("A")
     W, H = alpha.size
     bx0, by0, bx1, by1 = fundus.cam_box(W, H)
-    hot = max((alpha.getpixel((x, y)), x, y) for x in range(0, W, 2) for y in range(0, H, 2))
+    hot = max(((alpha.getpixel((x, y)), x, y) for x in range(0, W, 2) for y in range(0, H, 2)))
     assert hot[0] > 100 and bx0 <= hot[1] <= bx0 + (bx1 - bx0) // 5 and by0 <= hot[2] <= by0 + (by1 - by0) // 5
     assert alpha.getpixel((2, 2)) == 0                          # 裁剪区域外完全透明
 

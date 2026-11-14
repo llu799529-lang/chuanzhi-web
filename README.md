@@ -1,5 +1,8 @@
 # 传智web · MedTriage 多模态智能分诊与就医导航系统
 
+**GitHub 公开仓库：[llu799529-lang/chuanzhi-web](https://github.com/llu799529-lang/chuanzhi-web)**  
+代码获取、模型下载与私钥配置见根目录 [05_代码仓库与环境配置说明.md](05_代码仓库与环境配置说明.md)。公开仓库只提供 `.env.example` 模板，不提供真实 API Key。
+
 当前源码版：2026-11-13；仓库整理与本机核验日期：2026-11-14。验证结果见 [交付验证记录](docs/ENGINEERING_VALIDATION.md)，技术材料见 [技术说明书 PDF](docs/技术说明书.pdf)，提交前核对 [材料清单](docs/SUBMISSION_CHECKLIST.md)。文本正式版与视觉经济版分开配置，视觉可能按量计费。
 
 
@@ -76,6 +79,7 @@ git lfs pull
 ## 快速启动（Windows）
 
 1. 完整解压后，先看根目录 **00_先读我_运行说明.md**。
+   新 Python 环境请先执行 `python -m pip install numpy`：眼底质量检测依赖 NumPy，当前原始依赖清单漏列，本仓库保持代码与清单原样并在此补充安装说明。
 2. 双击 **01_双击启动MedTriage.bat**，浏览器将在服务就绪后自动打开；原 start_server.bat 保留兼容。
 3. 逐步操作及配图见根目录 **02_作品介绍与操作手册.docx**，关键技术见 **03_技术说明书.pdf**。
 
@@ -116,6 +120,7 @@ git lfs pull
 # 1. 安装依赖
 cd backend
 pip install -r requirements.txt
+python -m pip install numpy  # 质量检测必需；原依赖清单未列出，显式补装
 
 # 2. 配置环境变量（至少 ARK_API_KEY）
 export ARK_API_KEY="ark-xxxx"            # macOS / Linux
