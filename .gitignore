@@ -68,3 +68,4 @@ _backup*/
 .ruff_cache/
 *.tar.gz
 *.zip
+.fuse_hidden*
